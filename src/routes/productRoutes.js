@@ -2,7 +2,7 @@
 
 const {
   newProduct,
-  getProducts,
+  getByCategory,
   getProductById,
   deleteProductById,
   updateProductById,
@@ -11,7 +11,7 @@ const role = require('../middleware/role');
 
 const productRouter = require('express').Router();
 
-productRouter.route('/').post(newProduct).get(getProducts);
+productRouter.route('/').post(newProduct).get(getByCategory);
 
 productRouter
   .route('/:id')

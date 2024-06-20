@@ -19,7 +19,7 @@ async function newProduct(req, res, next) {
     next(error);
   }
 }
-
+/* Replaced with getByCategory()
 async function getProducts(req, res, next) {
   try {
     const products = await Product.find();
@@ -28,7 +28,7 @@ async function getProducts(req, res, next) {
     next(error);
   }
 }
-
+*/
 async function getProductById(req, res, next) {
   try {
     const product = await Product.findById(req.params.id);
@@ -74,9 +74,21 @@ async function updateProductById(req, res, next) {
   }
 }
 
+async function getByCategory(req, res, next) {
+  try {
+    // localhost:3001/products?category="drinks"
+    const { category } = req.query; // "drinks"
+    const filter = category ? { category } : {};
+    const products = await Product.find(filter).exec();
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   newProduct,
-  getProducts,
+  getByCategory,
   getProductById,
   deleteProductById,
   updateProductById,
