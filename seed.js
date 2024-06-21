@@ -42,7 +42,7 @@ async function seed() {
   try {
     for (const item of data) {
       console.log('Creating item');
-      await axios.post('http://localhost:3001/product', item);
+      await axios.post('http://localhost:3002/product', item);
       console.log('Item created');
     }
   } catch (error) {

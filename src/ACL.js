@@ -3,4 +3,4 @@ const guest = ['guest', 'admin', 'user'];
 const public = ['guest', 'admin', 'user', 'public'];
 
 const user = ['user', 'admin'];
-module.exports = { admin, user, users };
+module.exports = { admin, user };

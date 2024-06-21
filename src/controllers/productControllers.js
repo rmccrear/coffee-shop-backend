@@ -4,14 +4,15 @@ const Product = require('../models/Product');
 
 async function newProduct(req, res, next) {
   try {
-    const { name, description, price, category, stock, imageUrl } = req.body;
+    const { name, description, price, category, stock } = req.body;
+    console.log(req.file);
     const product = new Product({
       name,
       description,
       price,
       category,
       stock,
-      imageUrl,
+      imageUrl: req.file.path,
     });
     await product.save();
     res.status(201).json(product);
@@ -19,16 +20,7 @@ async function newProduct(req, res, next) {
     next(error);
   }
 }
-/* Replaced with getByCategory()
-async function getProducts(req, res, next) {
-  try {
-    const products = await Product.find();
-    res.status(200).json(products);
-  } catch (error) {
-    next(error);
-  }
-}
-*/
+
 async function getProductById(req, res, next) {
   try {
     const product = await Product.findById(req.params.id);
@@ -77,9 +69,23 @@ async function updateProductById(req, res, next) {
 async function getByCategory(req, res, next) {
   try {
     // localhost:3001/products?category="drinks"
-    const { category } = req.query; // "drinks"
+    const {
+      page = 1,
+      limit = 3,
+      category,
+      sortBy,
+      sortOrder = 'asc',
+    } = req.query; // "drinks"
+
     const filter = category ? { category } : {};
-    const products = await Product.find(filter).exec();
+
+    const sort = sortBy ? { [sortBy]: sortOrder === 'asc' ? 1 : -1 } : {};
+    const products = await Product.find(filter)
+      .sort(sort)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
     res.status(200).json(products);
   } catch (error) {
     next(error);
