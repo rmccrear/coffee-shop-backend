@@ -55,9 +55,9 @@ async function updateOneUser(req, res, next) {
     const { userId } = req.params;
     console.log(userId);
     const { name, email, password, role } = req.body;
-    // const user = await User.findByIdAndUpdate(userId ,req.body, {new: true})
+
     const user = await User.findById(userId);
-    console.log(user, '-----------------');
+
     if (!user) {
       return res.status(404).json({ error: 'User not found!' });
     }
