@@ -5,7 +5,7 @@ const Product = require('../models/Product');
 async function newProduct(req, res, next) {
   try {
     const { name, description, price, category, stock } = req.body;
-    console.log(req.file);
+
     const product = new Product({
       name,
       description,
