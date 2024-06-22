@@ -8,12 +8,16 @@ const {
   deleteProductById,
   updateProductById,
 } = require('../controllers/productControllers');
+const validateProduct = require('../middleware/joi');
 const role = require('../middleware/role');
 const upload = require('../middleware/upload');
 
 const productRouter = require('express').Router();
 
-productRouter.route('/').post(upload.single('image'),newProduct).get(getByCategory);
+productRouter
+  .route('/')
+  .post(upload.single('image'), validateProduct, newProduct)
+  .get(getByCategory);
 
 productRouter
   .route('/:id')
