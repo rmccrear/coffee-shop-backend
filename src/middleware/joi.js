@@ -18,9 +18,11 @@ function validateProduct(req, res, next) {
     };
     const { error } = schema.validate(product);
     if (error) {
+      console.log(error);
       return res.status(400).json({ error: 'Validation error' });
     }
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ error: 'Validation error' });
   }
 

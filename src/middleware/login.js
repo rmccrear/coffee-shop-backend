@@ -30,7 +30,7 @@ async function signToken(req, res, next) {
   try {
     const userId = req.user._id;
     const role = req.user.role;
-    const token = jwt.sign({ userId, role }, process.env.SECRET, {
+    const token = jwt.sign({ userId, role }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
     req.token = token;

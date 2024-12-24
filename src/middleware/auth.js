@@ -7,7 +7,7 @@ function auth(req, res, next) {
     return res.status(401).json({ error: 'Access denied. Provide a token.' });
   }
   try {
-    const decoded = jwt.verify(token, process.env.SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.role = decoded.role;
     req.userId = decoded.userId
     console.log(decoded, req.role, 'AUTH FUNCTION');
