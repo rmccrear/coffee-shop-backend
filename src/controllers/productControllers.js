@@ -12,7 +12,7 @@ async function newProduct(req, res, next) {
       price,
       category,
       stock,
-      imageUrl: req.file.path,
+      imageUrl: req.file ? req.file.path : undefined,
     });
     await product.save();
     res.status(201).json(product);

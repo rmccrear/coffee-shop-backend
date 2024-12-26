@@ -14,7 +14,7 @@ function validateProduct(req, res, next) {
       description: req.body.description,
       price: req.body.price,
       category: req.body.description,
-      imageUrl: req.file.path,
+      imageUrl: req.file ? req.file.path : undefined,
     };
     const { error } = schema.validate(product);
     if (error) {
