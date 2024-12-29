@@ -16,4 +16,13 @@ const storage = new CloudinaryStorage({
   },
 });
 
-module.exports = { cloudinary, storage };
+async function deleteFile(public_id) {
+  try {
+    const result = await cloudinary.uploader.destroy(public_id);
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = { cloudinary, storage, deleteFile };
