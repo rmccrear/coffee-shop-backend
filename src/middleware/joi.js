@@ -7,7 +7,7 @@ const schema = Joi.object({
   description: Joi.string().required(),
   price: Joi.number().required(),
   category: Joi.string().required(),
-  stock: Joi.string(),
+  stock: Joi.number(),
   imageUrl: Joi.string().uri(),
 });
 

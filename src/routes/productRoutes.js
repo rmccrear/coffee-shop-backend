@@ -9,22 +9,24 @@ const {
   updateProductById,
 } = require('../controllers/productControllers');
 const validateProduct = require('../middleware/joi');
+const auth = require('../middleware/auth');
 const role = require('../middleware/role');
 const upload = require('../middleware/upload');
 
-const productRouter = require('express').Router();
+const productRouterProtected = require('express').Router();
+const productRouterUnprotected = require('express').Router();
 
-productRouter
-  .route('/')
-  .post(upload.single('image'), validateProduct, newProduct)
-  .get(getByCategory);
+productRouterProtected.post('/', auth, upload.single('image'), validateProduct, newProduct);
+productRouterProtected.get('/', auth, getByCategory);
+productRouterProtected.get('/:id', getProductById);
+productRouterProtected.delete('/:id', auth, role(admin), deleteProductById);
+productRouterProtected.put('/:id', auth, role(admin), updateProductById);
 
-productRouter
-  .route('/:id')
-  .get(getProductById)
-  .delete(role(admin), deleteProductById)
-  .put(role(admin), updateProductById);
-productRouter
-  .route('/:id/purchase')
-  .put(role(user), (req, res) => res.send('Future Feature!'));
-module.exports = productRouter;
+productRouterUnprotected.post('/', upload.single('image'), validateProduct, newProduct);
+productRouterUnprotected.get('/', getByCategory);
+productRouterUnprotected.get('/:id', getProductById);
+productRouterUnprotected.delete('/:id', role(admin), deleteProductById);
+productRouterUnprotected.put('/:id', role(admin), updateProductById);
+
+
+module.exports = { productRouterProtected, productRouterUnprotected };
