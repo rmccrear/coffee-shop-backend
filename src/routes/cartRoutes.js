@@ -1,18 +1,25 @@
 // Cart Routes
 
 const express = require('express');
-const router = express.Router();
+const routerUnprotected = express.Router();
+const routerProtected = express.Router();
 const { getOrCreateCart, addProductToCart, removeProductFromCart } = require('../controllers/cartControllers');
 
 const auth = require('../middleware/auth');
+const mockAuth = require('../middleware/mockAuth');
 const role = require('../middleware/role');
 
-router.use(auth);
-router.use(role(['user', 'admin']));
+routerProtected.use(auth);
+routerProtected.use(role(['user', 'admin']));
 
-// router.get('/', getCarts);
-router.post('/', getOrCreateCart);
-router.put('/:id', addProductToCart);
-router.delete('/:id', removeProductFromCart);
+routerUnprotected.use(mockAuth);
+routerUnprotected.use(role(['user', 'admin']));
 
-module.exports = router;
+for (let route of [routerProtected, routerUnprotected]) {
+  // router.get('/', getCarts);
+  route.post('/', getOrCreateCart);
+  route.put('/:id', addProductToCart);
+  route.delete('/:id', removeProductFromCart);
+}
+
+module.exports = { cartRouterProtected: routerProtected, cartRouterUnprotected: routerUnprotected };

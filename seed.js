@@ -1,4 +1,7 @@
+require('dotenv').config();
 const axios = require('axios');
+
+const PORT = process.env.PORT || 3002;
 
 const data = [
   {
@@ -7,7 +10,7 @@ const data = [
     price: 2.5,
     category: 'Beverage',
     stock: 10,
-    imageUrl: 'https://example.com/espresso.jpg',
+    imageUrl: '/sample-images/espresso.jpg',
   },
   {
     name: 'Cappuccino',
@@ -16,7 +19,7 @@ const data = [
     price: 3.5,
     category: 'Beverage',
     stock: 5,
-    imageUrl: 'https://example.com/cappuccino.jpg',
+    imageUrl: '/sample-images/cappuccino.jpg',
   },
   {
     name: 'Croissant',
@@ -25,7 +28,7 @@ const data = [
     price: 2,
     category: 'Food',
     stock: 8,
-    imageUrl: 'https://example.com/croissant.jpg',
+    imageUrl: '/sample-images/croissant.jpg',
   },
   {
     name: 'Muffin',
@@ -34,15 +37,16 @@ const data = [
     price: 2.5,
     category: 'Food',
     stock: 6,
-    imageUrl: 'https://example.com/muffin.jpg',
+    imageUrl: '/sample-images/muffin.jpg',
   },
 ];
 
 async function seed() {
   try {
     for (const item of data) {
-      console.log('Creating item');
-      await axios.post('http://localhost:3002/product', item);
+      const url = `http://localhost:${PORT}/api/v1/products`;
+      console.log('Creating item', url);
+      await axios.post(url, item);
       console.log('Item created');
     }
   } catch (error) {

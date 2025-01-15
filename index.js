@@ -9,9 +9,10 @@ const baseRouter = require('./src/routes/baseRoutes');
 const { error } = require('./src/middleware/error');
 const mongooseConnect = require('./database');
 const notFound = require('./src/middleware/notFound404');
-const productRouter = require('./src/routes/productRoutes');
+const {productRouterProtected, productRouterUnprotected} = require('./src/routes/productRoutes');
 const userRouter = require('./src/routes/userRoutes');
-const cartRouter = require('./src/routes/cartRoutes');
+// const cartRouter = require('./src/routes/cartRoutes');
+const { cartRouterProtected, cartRouterUnprotected } = require('./src/routes/cartRoutes');
 
 // Middleware
 app.use(express.json());
@@ -19,10 +20,13 @@ app.use(cors());
 app.use(baseRouter);
 
 // REST API Endpoints
-app.use('/api/v2/products', productRouter);
+app.use('/api/v2/products', productRouterProtected);
 app.use('/api/v2/users', userRouter);
-app.use('/api/v2/cart', cartRouter);
+app.use('/api/v2/cart', cartRouterProtected);
 
+app.use('/api/v1/products', productRouterUnprotected);
+// app.use('/api/v1/users', userRouter);
+app.use('/api/v1/cart', cartRouterUnprotected);
 // for 404
 // This must be the last middleware before error handling, and after all routes
 app.use(notFound);
