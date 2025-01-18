@@ -71,7 +71,7 @@ async function getByCategory(req, res, next) {
     // localhost:3001/products?category="drinks"
     const {
       page = 1,
-      limit = 3,
+      limit = 10,
       category,
       sortBy,
       sortOrder = 'asc',
