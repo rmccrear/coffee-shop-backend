@@ -17,7 +17,7 @@ const productRouterProtected = require('express').Router();
 const productRouterUnprotected = require('express').Router();
 
 productRouterProtected.post('/', auth, upload.single('image'), validateProduct, newProduct);
-productRouterProtected.get('/', auth, getByCategory);
+productRouterProtected.get('/', getByCategory);
 productRouterProtected.get('/:id', getProductById);
 productRouterProtected.delete('/:id', auth, role(admin), deleteProductById);
 productRouterProtected.put('/:id', auth, role(admin), updateProductById);
